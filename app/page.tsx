@@ -1,11 +1,52 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import { CATEGORIES, Category, Movie } from "@/types/movie";
 import { moviesByCategory } from "@/lib/movies";
 import Header from "@/components/Header";
-import CategoryView from "@/components/CategoryView";
+import MovieCard from "@/components/MovieCard";
 import WatchlistDrawer from "@/components/WatchlistDrawer";
+
+interface CategoryViewProps {
+  category: Category;
+  onBack: () => void;
+  inCollection: (id: number) => boolean;
+  onToggle: (movie: Movie) => void;
+}
+
+function CategoryView({ category, onBack, inCollection, onToggle }: CategoryViewProps) {
+  const movies = moviesByCategory(category.id);
+  return (
+    <section className="mx-auto w-full max-w-5xl px-4 pb-16 pt-6">
+      <div className="mb-6 flex items-center gap-3">
+        <button
+          onClick={onBack}
+          aria-label="Back to categories"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-grey-light bg-white text-grey-dark shadow-olive-sm transition active:scale-95"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </button>
+        <div className="min-w-0">
+          <h2 className="truncate font-serif text-2xl font-semibold text-grey-dark">
+            {category.emoji} {category.name}
+          </h2>
+          <p className="text-xs text-grey-muted">{category.tagline}</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+        {movies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            added={inCollection(movie.id)}
+            onToggle={() => onToggle(movie)}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
