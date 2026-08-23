@@ -14,14 +14,14 @@ const config: Config = {
         grey: { muted: "#6B7280", light: "#E5E7EB", dark: "#374151" },
       },
       fontFamily: {
-        serif: ["Playfair Display", "serif"],
-        sans: ["Inter", "sans-serif"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        serif: ["var(--font-serif)", "Georgia", "serif"],
       },
       boxShadow: {
-        'olive-sm': '0 2px 8px rgba(92, 107, 71, 0.08)',
-        'olive-md': '0 8px 24px rgba(92, 107, 71, 0.12)',
-        'olive-lg': '0 16px 48px rgba(92, 107, 71, 0.16)',
-      }
+        "olive-sm": "0 2px 8px rgba(92, 107, 71, 0.08)",
+        "olive-md": "0 8px 24px rgba(92, 107, 71, 0.12)",
+        "olive-lg": "0 16px 48px rgba(92, 107, 71, 0.16)",
+      },
     },
   },
   plugins: [],
