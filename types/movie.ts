@@ -16,8 +16,8 @@ export interface Movie {
   title: string;
   year: number;
   rating: number;
-  tagline: string;
   category: CategoryId;
+  wiki?: string; // Wikipedia page title (agar movie title se alag ho)
 }
 
 export const CATEGORIES: Category[] = [
