@@ -1,32 +1,32 @@
 "use client";
-import { Leaf, Menu } from "lucide-react";
+import Logo from "./Logo";
 
 interface HeaderProps {
-  watchlistCount: number;
+  count: number;
   onMenuClick: () => void;
 }
 
-export default function Header({ watchlistCount, onMenuClick }: HeaderProps) {
+export default function Header({ count, onMenuClick }: HeaderProps) {
   return (
-    <header className="fixed top-0 w-full z-50 bg-cream/80 backdrop-blur-md border-b border-grey-light/50">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-olive rounded-full flex items-center justify-center shadow-olive-sm">
-            <Leaf className="w-5 h-5 text-cream" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-serif font-bold text-grey-dark tracking-tight">Olea</h1>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-grey-muted -mt-1">Curated Cinema</p>
+    <header className="sticky top-0 z-30 border-b border-grey-light/60 bg-cream/85 backdrop-blur-md">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+        <div className="flex items-center gap-2.5">
+          <Logo className="h-9 w-9" />
+          <div className="leading-tight">
+            <p className="font-serif text-xl font-bold text-grey-dark">Olea</p>
+            <p className="text-[9px] uppercase tracking-[0.22em] text-grey-muted">Curated Cinema</p>
           </div>
         </div>
-        <button onClick={onMenuClick} className="relative flex items-center gap-2 px-4 py-2 bg-cream-dark hover:bg-grey-light/50 border border-grey-light rounded-full transition-all duration-300 group">
-          <span className="text-sm font-medium text-grey-dark">Collection</span>
-          {watchlistCount > 0 && (
-            <span className="flex items-center justify-center w-5 h-5 bg-olive text-cream text-xs font-bold rounded-full group-hover:scale-110 transition-transform">
-              {watchlistCount}
+        <button
+          onClick={onMenuClick}
+          className="flex items-center gap-2 rounded-full border border-grey-light bg-white px-4 py-2 text-sm font-medium text-grey-dark shadow-olive-sm transition active:scale-95"
+        >
+          Collection
+          {count > 0 && (
+            <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-olive px-1 text-[11px] font-bold text-cream">
+              {count}
             </span>
           )}
-          <Menu className="w-4 h-4 text-grey-muted" />
         </button>
       </div>
     </header>
