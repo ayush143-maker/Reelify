@@ -3,11 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
   body {
     @apply bg-cream text-grey-dark font-sans antialiased;
+    overflow-x: hidden;
   }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { @apply bg-cream-dark; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { @apply bg-olive-light rounded-full; }
-  ::-webkit-scrollbar-thumb:hover { @apply bg-olive; }
 }
