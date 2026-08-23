@@ -1,61 +1,42 @@
 "use client";
-import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
-import { Movie, TMDB_IMAGE_BASE } from "@/types/movie";
-import { Heart, X, Star } from "lucide-react";
-import { getYear } from "@/lib/utils";
+import { Movie, getCategory } from "@/types/movie";
+import { Check, Plus, Star } from "lucide-react";
 
 interface MovieCardProps {
   movie: Movie;
-  onSwipe: (direction: "left" | "right") => void;
-  isTop: boolean;
+  added: boolean;
+  onToggle: () => void;
 }
 
-export default function MovieCard({ movie, onSwipe, isTop }: MovieCardProps) {
-  const x = useMotionValue(0);
-  const rotate = useTransform(x, [-250, 250], [-12, 12]);
-  const likeOpacity = useTransform(x, [50, 150], [0, 1]);
-  const nopeOpacity = useTransform(x, [-150, -50], [1, 0]);
-
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    if (info.offset.x > 120 || info.velocity.x > 500) onSwipe("right"); 
-    else if (info.offset.x < -120 || info.velocity.x < -500) onSwipe("left"); 
-  };
-
+export default function MovieCard({ movie, added, onToggle }: MovieCardProps) {
+  const cat = getCategory(movie.category);
   return (
-    <motion.div
-      drag={isTop ? "x" : false}
-      style={{ x, rotate }}
-      onDragEnd={handleDragEnd}
-      className={`absolute w-[320px] h-[480px] bg-white rounded-2xl shadow-olive-lg overflow-hidden select-none ${isTop ? 'cursor-grab active:cursor-grabbing' : ''}`}
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ x: 300, opacity: 0, transition: { duration: 0.3 } }}
-      transition={{ type: "spring", stiffness: 300, damping: 25 }}
-    >
-      <div className="relative w-full h-full">
-        <img src={`${TMDB_IMAGE_BASE}${movie.poster_path}`} alt={movie.title} className="w-full h-full object-cover" draggable="false" />
-        <div className="absolute bottom-0 w-full h-2/3 bg-gradient-to-t from-olive-dark/90 via-olive-dark/50 to-transparent" />
-
-        <motion.div style={{ opacity: likeOpacity }} className="absolute top-6 left-6 border-2 border-cream/80 text-cream px-3 py-1 rounded-lg font-serif text-lg tracking-wide backdrop-blur-sm">
-          <Heart className="inline mr-2 w-4 h-4" /> ADD
-        </motion.div>
-        <motion.div style={{ opacity: nopeOpacity }} className="absolute top-6 right-6 border-2 border-cream/80 text-cream px-3 py-1 rounded-lg font-serif text-lg tracking-wide backdrop-blur-sm">
-          <X className="inline mr-2 w-4 h-4" /> SKIP
-        </motion.div>
-
-        <div className="absolute bottom-0 w-full p-6 text-cream">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs uppercase tracking-widest text-cream/70 font-medium">{getYear(movie.release_date)}</span>
-            <span className="w-1 h-1 bg-cream/50 rounded-full" />
-            <div className="flex items-center gap-1 text-cream/90">
-              <Star className="w-3 h-3 fill-current" />
-              <span className="text-xs font-medium">{movie.vote_average.toFixed(1)}</span>
-            </div>
-          </div>
-          <h2 className="text-2xl font-serif font-bold leading-tight mb-2">{movie.title}</h2>
-          <p className="text-sm text-cream/80 line-clamp-3 leading-relaxed">{movie.overview}</p>
+    <div className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-olive-sm">
+      <div
+        className="relative flex aspect-[2/3] flex-col justify-between p-3"
+        style={{ background: `linear-gradient(150deg, ${cat.gradient[0]}, ${cat.gradient[1]})` }}
+      >
+        <div className="flex items-center justify-between text-cream/90">
+          <span className="flex items-center gap-1 text-[11px] font-semibold">
+            <Star className="h-3 w-3 fill-current" />
+            {movie.rating.toFixed(1)}
+          </span>
+          <span className="text-[11px]">{movie.year}</span>
         </div>
+        <h3 className="font-serif text-lg font-semibold leading-snug text-cream">{movie.title}</h3>
       </div>
-    </motion.div>
+      <div className="flex items-center justify-between gap-2 p-3">
+        <p className="min-w-0 flex-1 truncate text-[11px] text-grey-muted">{movie.tagline}</p>
+        <button
+          onClick={onToggle}
+          aria-label={added ? "Remove from collection" : "Add to collection"}
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition active:scale-90 ${
+            added ? "bg-olive text-cream" : "border border-grey-light bg-cream-dark text-olive"
+          }`}
+        >
+          {added ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+        </button>
+      </div>
+    </div>
   );
 }
