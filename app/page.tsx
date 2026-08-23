@@ -1,71 +1,94 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Movie } from "@/types/movie";
-import SwipeDeck from "@/components/SwipeDeck";
-import WatchlistDrawer from "@/components/WatchlistDrawer";
+import { useEffect, useState } from "react";
+import { CATEGORIES, Category, Movie } from "@/types/movie";
+import { moviesByCategory } from "@/lib/movies";
 import Header from "@/components/Header";
-import { Loader2 } from "lucide-react";
+import CategoryView from "@/components/CategoryView";
+import WatchlistDrawer from "@/components/WatchlistDrawer";
 
 export default function Home() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [watchlist, setWatchlist] = useState<Movie[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
+  const [collection, setCollection] = useState<Movie[]>([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const res = await fetch("/api/movies");
-        if (!res.ok) throw new Error("Failed to fetch");
-        const data = await res.json();
-        setMovies(data);
-      } catch (error) {
-        console.error("Failed to load movies", error);
-      } finally {
-        setIsLoading(false);
+    try {
+      const saved = localStorage.getItem("olea-collection");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setCollection(parsed.filter((m: Movie) => m && m.title && m.year && m.category));
       }
-    };
-    fetchMovies();
-
-    const savedWatchlist = localStorage.getItem("olea-watchlist");
-    if (savedWatchlist) setWatchlist(JSON.parse(savedWatchlist));
+    } catch {}
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("olea-watchlist", JSON.stringify(watchlist));
-  }, [watchlist]);
+    localStorage.setItem("olea-collection", JSON.stringify(collection));
+  }, [collection]);
 
-  const handleSwipe = (movie: Movie, direction: "left" | "right") => {
-    if (direction === "right") setWatchlist((prev) => [movie, ...prev]);
-    setMovies((prev) => prev.filter((m) => m.id !== movie.id));
+  const toggleCollection = (movie: Movie) => {
+    setCollection((prev) =>
+      prev.some((m) => m.id === movie.id)
+        ? prev.filter((m) => m.id !== movie.id)
+        : [movie, ...prev]
+    );
   };
 
-  const removeFromWatchlist = (id: number) => {
-    setWatchlist((prev) => prev.filter((m) => m.id !== id));
-  };
+  const inCollection = (id: number) => collection.some((m) => m.id === id);
 
   return (
-    <main className="min-h-screen bg-cream flex flex-col items-center relative overflow-hidden">
-      <Header watchlistCount={watchlist.length} onMenuClick={() => setIsDrawerOpen(true)} />
+    <main className="min-h-screen bg-cream">
+      <Header count={collection.length} onMenuClick={() => setDrawerOpen(true)} />
 
-      <div className="flex-1 flex flex-col items-center justify-center w-full px-4 pt-24 pb-12">
-        <div className="text-center mb-8 max-w-md">
-          <h2 className="text-lg font-serif text-grey-dark mb-1">Discover Your Next Watch</h2>
-          <p className="text-sm text-grey-muted">Swipe right to curate, left to pass.</p>
-        </div>
-
-        {isLoading ? (
-          <div className="w-[320px] h-[480px] bg-cream-dark rounded-2xl shadow-olive-sm flex flex-col items-center justify-center border border-grey-light">
-            <Loader2 className="w-8 h-8 text-olive animate-spin mb-3" />
-            <p className="text-sm text-grey-muted font-medium">Curating films...</p>
+      {activeCategory ? (
+        <CategoryView
+          category={activeCategory}
+          onBack={() => setActiveCategory(null)}
+          inCollection={inCollection}
+          onToggle={toggleCollection}
+        />
+      ) : (
+        <section className="mx-auto w-full max-w-5xl px-4 pb-16 pt-10 sm:pt-14">
+          <div className="mb-8 text-center sm:mb-10">
+            <h2 className="font-serif text-3xl font-semibold text-grey-dark sm:text-4xl">
+              Pick a mood. Find your film.
+            </h2>
+            <p className="mt-2 text-sm text-grey-muted">
+              Ten hand-picked shelves of cinema. Tap one, start collecting.
+            </p>
           </div>
-        ) : (
-          <SwipeDeck movies={movies} onSwipe={handleSwipe} />
-        )}
-      </div>
 
-      <WatchlistDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} watchlist={watchlist} onRemove={removeFromWatchlist} />
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat)}
+                className="flex aspect-[4/3] flex-col justify-between rounded-2xl p-4 text-left shadow-olive-sm transition active:scale-95 sm:aspect-auto sm:min-h-[140px]"
+                style={{ background: `linear-gradient(140deg, ${cat.gradient[0]}, ${cat.gradient[1]})` }}
+              >
+                <span className="text-2xl">{cat.emoji}</span>
+                <span>
+                  <span className="block font-serif text-lg font-semibold leading-tight text-cream">{cat.name}</span>
+                  <span className="mt-0.5 block text-[11px] text-cream/70">
+                    {moviesByCategory(cat.id).length} films
+                  </span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <footer className="pb-8 text-center text-xs text-grey-muted">
+        Crafted with 🫒 — Olea
+      </footer>
+
+      <WatchlistDrawer
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        collection={collection}
+        onRemove={(id) => setCollection((prev) => prev.filter((m) => m.id !== id))}
+      />
     </main>
   );
 }
