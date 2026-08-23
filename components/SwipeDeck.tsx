@@ -1,5 +1,5 @@
 "use client";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Movie } from "@/types/movie";
 import MovieCard from "./MovieCard";
 
