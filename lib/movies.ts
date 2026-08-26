@@ -5,7 +5,7 @@ const m = (category: CategoryId, title: string, year: number, rating: number, wi
   ({ id: uid++, category, title, year, rating, wiki });
 
 export const MOVIES: Movie[] = [
-  // 🎬 HOLLYWOOD (40)
+  // HOLLYWOOD (40)
   m("hollywood", "The Godfather", 1972, 8.7),
   m("hollywood", "The Shawshank Redemption", 1994, 8.7),
   m("hollywood", "The Dark Knight", 2008, 8.5),
@@ -46,7 +46,7 @@ export const MOVIES: Movie[] = [
   m("hollywood", "Chinatown", 1974, 8.1),
   m("hollywood", "Vertigo", 1958, 8.3, "Vertigo (film)"),
   m("hollywood", "North by Northwest", 1959, 8.3),
-  // 🪔 BOLLYWOOD (40)
+  // BOLLYWOOD (40)
   m("bollywood", "3 Idiots", 2009, 8.1),
   m("bollywood", "Dangal", 2016, 7.9),
   m("bollywood", "Taare Zameen Par", 2007, 8.3),
@@ -87,7 +87,7 @@ export const MOVIES: Movie[] = [
   m("bollywood", "Hera Pheri", 2000, 8.1),
   m("bollywood", "Chupke Chupke", 1975, 8.2),
   m("bollywood", "Guide", 1965, 8.0),
-  // 🍿 BLOCKBUSTERS (40)
+  // BLOCKBUSTERS (40)
   m("blockbusters", "Avengers: Endgame", 2019, 8.4),
   m("blockbusters", "Avatar", 2009, 7.6, "Avatar (2009 film)"),
   m("blockbusters", "Titanic", 1997, 7.9, "Titanic (1997 film)"),
@@ -128,7 +128,7 @@ export const MOVIES: Movie[] = [
   m("blockbusters", "Aquaman", 2018, 6.8),
   m("blockbusters", "Ready Player One", 2018, 7.4),
   m("blockbusters", "Avatar: The Way of Water", 2022, 7.6),
-  // 🏛️ CLASSICS (40)
+  // CLASSICS (40)
   m("classics", "12 Angry Men", 1957, 8.5),
   m("classics", "Casablanca", 1942, 8.4),
   m("classics", "Psycho", 1960, 8.5, "Psycho (1960 film)"),
@@ -169,7 +169,7 @@ export const MOVIES: Movie[] = [
   m("classics", "The Maltese Falcon", 1941, 8.0),
   m("classics", "Rebecca", 1940, 8.1),
   m("classics", "Notorious", 1946, 8.0),
-  // 🌍 INTERNATIONAL (40)
+  // INTERNATIONAL (40)
   m("international", "Parasite", 2019, 8.5),
   m("international", "Spirited Away", 2001, 8.6),
   m("international", "Life Is Beautiful", 1997, 8.4),
@@ -210,7 +210,7 @@ export const MOVIES: Movie[] = [
   m("international", "The Hunt", 2012, 8.3, "The Hunt (2012 film)"),
   m("international", "The Wailing", 2016, 7.4),
   m("international", "Elite Squad", 2007, 8.0),
-  // 💎 HIDDEN GEMS (40)
+  // HIDDEN GEMS (40)
   m("hidden-gems", "The Fall", 2006, 7.8, "The Fall (film)"),
   m("hidden-gems", "Coherence", 2013, 7.2, "Coherence (film)"),
   m("hidden-gems", "The Man from Earth", 2007, 7.9),
@@ -251,7 +251,7 @@ export const MOVIES: Movie[] = [
   m("hidden-gems", "Burning", 2018, 7.5),
   m("hidden-gems", "The Hand of God", 2021, 7.3),
   m("hidden-gems", "Perfect Days", 2023, 7.9),
-  // 🛋️ FAMILY NIGHT (40)
+  // FAMILY NIGHT (40)
   m("family", "Toy Story", 1995, 8.0),
   m("family", "The Lion King", 1994, 8.3, "The Lion King (1994 film)"),
   m("family", "Finding Nemo", 2003, 7.8),
@@ -292,7 +292,7 @@ export const MOVIES: Movie[] = [
   m("family", "E.T. the Extra-Terrestrial", 1982, 7.9),
   m("family", "Hook", 1991, 6.8),
   m("family", "The Muppet Movie", 1979, 7.6),
-  // 🎥 DOCUMENTARIES (40)
+  // DOCUMENTARIES (40)
   m("documentaries", "Free Solo", 2018, 8.1),
   m("documentaries", "Senna", 2010, 8.5, "Senna (film)"),
   m("documentaries", "Man on Wire", 2008, 7.7),
@@ -333,7 +333,7 @@ export const MOVIES: Movie[] = [
   m("documentaries", "RBG", 2018, 7.5),
   m("documentaries", "The Beatles: Eight Days a Week", 2016, 8.0),
   m("documentaries", "Diego Maradona", 2019, 7.6),
-  // 🌤️ FEEL GOOD (40)
+  // FEEL GOOD (40)
   m("feel-good", "The Grand Budapest Hotel", 2014, 8.1),
   m("feel-good", "Little Miss Sunshine", 2006, 7.8),
   m("feel-good", "The Pursuit of Happyness", 2006, 8.0),
@@ -374,7 +374,7 @@ export const MOVIES: Movie[] = [
   m("feel-good", "Chef's Table", 2015, 8.5, "Chef's Table"),
   m("feel-good", "The Guernsey Literary and Potato Peel Pie Society", 2018, 7.4),
   m("feel-good", "A Man Called Otto", 2022, 7.4),
-  // 👁️ CULT FAVORITES (40)
+  // CULT FAVORITES (40)
   m("cult", "The Big Lebowski", 1998, 8.1),
   m("cult", "Fight Club", 1999, 8.4),
   m("cult", "Donnie Darko", 2001, 8.0),
