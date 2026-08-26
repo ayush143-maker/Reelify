@@ -18,23 +18,21 @@ interface CategoryViewProps {
 function CategoryView({ category, onBack, inCollection, onToggle }: CategoryViewProps) {
   const movies = moviesByCategory(category.id);
   return (
-    <section className="mx-auto w-full max-w-5xl px-4 pb-16 pt-6">
-      <div className="mb-6 flex items-center gap-3">
+    <section className="mx-auto w-full max-w-5xl px-5 pb-20 pt-8 sm:px-6">
+      <div className="mb-8 flex items-center gap-4">
         <button
           onClick={onBack}
           aria-label="Back to categories"
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-grey-light bg-white text-grey-dark shadow-olive-sm transition active:scale-95"
+          className="flex h-10 w-10 shrink-0 items-center justify-center border border-line text-paper transition hover:border-gold-dim active:scale-95"
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft className="h-4 w-4" />
         </button>
         <div className="min-w-0">
-          <h2 className="truncate font-serif text-2xl font-semibold text-grey-dark">
-            {category.emoji} {category.name}
-          </h2>
-          <p className="text-xs text-grey-muted">{category.tagline}</p>
+          <h2 className="truncate font-serif text-2xl text-paper sm:text-3xl">{category.name}</h2>
+          <p className="mt-1 text-xs uppercase tracking-wider2 text-muted">{category.tagline}</p>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-px bg-line sm:grid-cols-3 lg:grid-cols-4">
         {movies.map((movie) => (
           <MovieCard
             key={movie.id}
@@ -78,7 +76,7 @@ export default function Home() {
   const inCollection = (id: number) => collection.some((m) => m.id === id);
 
   return (
-    <main className="min-h-screen bg-cream">
+    <main className="min-h-screen bg-ink">
       <Header count={collection.length} onMenuClick={() => setDrawerOpen(true)} />
 
       {activeCategory ? (
@@ -89,30 +87,32 @@ export default function Home() {
           onToggle={toggleCollection}
         />
       ) : (
-        <section className="mx-auto w-full max-w-5xl px-4 pb-16 pt-10 sm:pt-14">
-          <div className="mb-8 text-center sm:mb-10">
-            <h2 className="font-serif text-3xl font-semibold text-grey-dark sm:text-4xl">
-              Pick a mood. Find your film.
+        <section className="mx-auto w-full max-w-5xl px-5 pb-20 pt-14 sm:px-6 sm:pt-20">
+          <div className="mb-12 max-w-lg sm:mb-16">
+            <p className="mb-4 font-mono text-[11px] uppercase tracking-wider3 text-gold">Ten Shelves</p>
+            <h2 className="font-serif text-4xl italic leading-[1.1] text-paper sm:text-5xl">
+              Choose a shelf,<br />begin your collection.
             </h2>
-            <p className="mt-2 text-sm text-grey-muted">
-              Ten hand-picked shelves of cinema. Tap one, start collecting.
-            </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-px bg-line sm:grid-cols-3 lg:grid-cols-5">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat)}
-                className="flex aspect-[4/3] flex-col justify-between rounded-2xl p-4 text-left shadow-olive-sm transition active:scale-95 sm:aspect-auto sm:min-h-[140px]"
-                style={{ background: `linear-gradient(140deg, ${cat.gradient[0]}, ${cat.gradient[1]})` }}
+                className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden bg-surface p-5 text-left transition-colors hover:bg-surface-raised sm:aspect-auto sm:min-h-[160px]"
               >
-                <span className="text-2xl">{cat.emoji}</span>
-                <span>
-                  <span className="block font-serif text-lg font-semibold leading-tight text-cream">{cat.name}</span>
-                  <span className="mt-0.5 block text-[11px] text-cream/70">
-                    {moviesByCategory(cat.id).length} films
+                <span className="pointer-events-none absolute -right-2 -top-3 font-serif text-6xl italic text-paper/5 transition-colors group-hover:text-gold/10">
+                  {cat.name.charAt(0)}
+                </span>
+                <span className="relative">
+                  <span className="block font-serif text-lg leading-tight text-paper transition-colors group-hover:text-gold">
+                    {cat.name}
                   </span>
+                  <span className="mt-1.5 block text-[10px] uppercase tracking-wider2 text-muted">
+                    {cat.tagline}
+                  </span>
+                  <span className="mt-3 block h-px w-5 bg-line transition-all duration-300 group-hover:w-10 group-hover:bg-gold" />
                 </span>
               </button>
             ))}
@@ -120,8 +120,9 @@ export default function Home() {
         </section>
       )}
 
-      <footer className="pb-8 text-center text-xs text-grey-muted">
-        Crafted with 🫒 — Olea
+      <div className="h-6 sprocket-row" />
+      <footer className="py-8 text-center">
+        <p className="font-mono text-[10px] uppercase tracking-wider3 text-muted">Olea — A Curated Catalog</p>
       </footer>
 
       <WatchlistDrawer

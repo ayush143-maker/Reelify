@@ -7,10 +7,33 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-cream text-grey-dark font-sans antialiased;
+    @apply bg-ink text-paper font-sans antialiased;
     overflow-x: hidden;
   }
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { @apply bg-olive-light rounded-full; }
+  ::-webkit-scrollbar-thumb { @apply bg-line rounded-full; }
+  :focus-visible {
+    outline: 1.5px solid #C9A227;
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* Sprocket motif — a nod to 35mm film perforations, used as a quiet
+     structural divider rather than decoration. */
+  .sprocket-row {
+    background-image: radial-gradient(circle, #28282B 1px, transparent 1.4px);
+    background-size: 10px 100%;
+    background-repeat: repeat-x;
+    background-position: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
