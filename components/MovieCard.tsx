@@ -53,47 +53,46 @@ export default function MovieCard({ movie, added, onToggle }: MovieCardProps) {
   const poster = usePoster(movie);
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-olive-sm">
-      <div
-        className="relative aspect-[2/3] overflow-hidden"
-        style={{ background: `linear-gradient(150deg, ${cat.gradient[0]}, ${cat.gradient[1]})` }}
-      >
-        {poster && (
+    <div className="group flex flex-col border border-line bg-surface transition-colors hover:border-muted">
+      <div className="relative aspect-[2/3] overflow-hidden bg-surface-raised">
+        {poster ? (
           <img
             src={poster}
             alt={movie.title}
             loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover grayscale-[15%] transition duration-500 group-hover:grayscale-0"
             onError={(e) => (e.currentTarget.style.display = "none")}
           />
+        ) : (
+          <span className="absolute inset-0 flex items-center justify-center font-serif text-5xl italic text-paper/10">
+            {movie.title.charAt(0)}
+          </span>
         )}
-        <div className="absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/50 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 text-cream">
-          <span className="flex items-center gap-1 text-[11px] font-semibold">
-            <Star className="h-3 w-3 fill-current" />
+        <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-ink/80 to-transparent" />
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3">
+          <span className="flex items-center gap-1 font-mono text-[10px] text-paper">
+            <Star className="h-2.5 w-2.5 fill-gold text-gold" />
             {movie.rating.toFixed(1)}
           </span>
-          <span className="text-[11px]">{movie.year}</span>
+          <span className="font-mono text-[10px] text-paper/70">{movie.year}</span>
         </div>
-        <h3 className="absolute inset-x-0 bottom-0 p-3 font-serif text-lg font-semibold leading-snug text-cream">
-          {movie.title}
-        </h3>
       </div>
 
-      <div className="flex items-center justify-between gap-2 p-3">
-        <p className="min-w-0 flex-1 truncate text-[10px] uppercase tracking-wider text-grey-muted">
-          {cat.name}
-        </p>
+      <div className="flex items-start justify-between gap-2 border-t border-line p-3">
+        <div className="min-w-0">
+          <h3 className="truncate font-serif text-[15px] leading-snug text-paper">{movie.title}</h3>
+          <p className="mt-0.5 truncate text-[10px] uppercase tracking-wider2 text-muted">{cat.name}</p>
+        </div>
         <button
           onClick={onToggle}
           aria-label={added ? "Remove from collection" : "Add to collection"}
-          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition active:scale-90 ${
-            added ? "bg-olive text-cream" : "border border-grey-light bg-cream-dark text-olive"
+          className={`flex h-7 w-7 shrink-0 items-center justify-center border transition active:scale-90 ${
+            added
+              ? "border-gold bg-gold text-ink"
+              : "border-line text-muted hover:border-gold hover:text-gold"
           }`}
         >
-          {added ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          {added ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
         </button>
       </div>
     </div>
