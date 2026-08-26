@@ -9,18 +9,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: { DEFAULT: "#FDFBF7", dark: "#F4F1EA" },
-        olive: { DEFAULT: "#5C6B47", light: "#8A9A7B", dark: "#3E4A2E" },
-        grey: { muted: "#6B7280", light: "#E5E7EB", dark: "#374151" },
+        ink: "#0E0E0F",
+        surface: { DEFAULT: "#17171A", raised: "#1D1D1F" },
+        paper: { DEFAULT: "#EDEBE6", dim: "#B7B4AC" },
+        line: "#28282B",
+        muted: "#84817A",
+        gold: { DEFAULT: "#C9A227", dim: "#8A7124" },
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         serif: ["var(--font-serif)", "Georgia", "serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
-      boxShadow: {
-        "olive-sm": "0 2px 8px rgba(92, 107, 71, 0.08)",
-        "olive-md": "0 8px 24px rgba(92, 107, 71, 0.12)",
-        "olive-lg": "0 16px 48px rgba(92, 107, 71, 0.16)",
+      letterSpacing: {
+        wider2: "0.16em",
+        wider3: "0.24em",
       },
     },
   },
